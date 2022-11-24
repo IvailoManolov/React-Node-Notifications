@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import './App.css';
+import Card from './components/card/Card';
 import Login from './components/Login';
+import Navbar from './components/Navbar/Navbar';
 
 function App() {
 
@@ -9,8 +11,17 @@ function App() {
 
   return (
     <div className='container'>
-      <Login setUsername = {setUsername} userName={userName} setUser = {setUser}/>
-    </div>
+      {user ? (
+        <>
+          <Navbar />
+          <Card />
+          <span className='username'>{user}</span>
+        </>
+      ) : 
+      (
+        <Login setUsername = {setUsername} userName={userName} setUser = {setUser}/>
+      )}
+      </div>
   );
 }
 
