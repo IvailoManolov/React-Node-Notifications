@@ -28,7 +28,14 @@ io.on("connection", (socket) => {
         addNewUser(userName, socket.id)
     })
 
-    io.emit("firstEvent", "Hello this is a test!")
+    socket.on("sendNotification",({senderName,receiverName,type}) => {
+        const receiver = getUser(receiverName)
+        console.log(receiver)
+        io.to(receiver?.socketId).emit("getNotification",{
+            senderName,
+            type
+        })
+    })
 
     socket.on("disconnect", () => {
         console.log('\x1b[42m%s\x1b[0m',"[SUCESS] Connection dropped")
