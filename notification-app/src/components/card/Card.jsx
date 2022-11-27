@@ -7,13 +7,17 @@ import Share from "../../img/share png.png"
 import HeartLiked from "../../img/liked.png"
 import { useState } from 'react'
 
-const Card = ({post}) => {
+const Card = ({post,socket,user}) => {
 
   const[liked,setLiked] = useState(false)
-  
 
-  const handleNotification = () => {
+  const handleNotification = (type) => {
     setLiked(true)
+    socket.emit("sendNotification", {
+      senderName : user,
+      receiverName : post.username,
+      type
+    })
   }
 
   return (
@@ -27,10 +31,10 @@ const Card = ({post}) => {
       <div className="interaction">
         {liked ? (<img src={HeartLiked} alt="" className="cardIcon" />) :
         (
-          <img src={Heart} alt="" className="cardIcon" onClick={handleNotification}/>
+          <img src={Heart} alt="" className="cardIcon" onClick={() => handleNotification(1)}/>
         )}
-        <img src={Message} alt="" className="cardIconMessage" />
-        <img src={Share} alt="" className="cardIcon" />
+        <img src={Message} alt="" className="cardIconMessage"  onClick={() => handleNotification(2)}/>
+        <img src={Share} alt="" className="cardIcon" onClick={() => handleNotification(3)}/>
       </div>
     </div>
   )
